@@ -111,7 +111,7 @@ public class AutoDriveDistanceCommand extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		//Robot.drivetrain.disableDriveTrain();
-		Robot.driveTrain.stop();
+		Robot.driveTrain.stopRobot();
 		m_EncoderPID.disable(); // begin PID control
 	}
 

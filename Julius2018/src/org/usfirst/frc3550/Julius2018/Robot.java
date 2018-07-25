@@ -23,8 +23,13 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc3550.Julius2018.theory6.pathing.*;
+import org.usfirst.frc3550.Julius2018.theory6.pathing.Paths6.FROM_RIGHT;
+import org.usfirst.frc3550.Julius2018.commands.pathing.Paths.FROM_RIGHT_PORTAL;
+
 import org.usfirst.frc3550.Julius2018.commands.*;
 import org.usfirst.frc3550.Julius2018.subsystems.*;
+import org.usfirst.frc3550.Julius2018.theory6.pathing.*;
 import org.usfirst.frc3550.Julius2018.util.FieldMesures;
 //import org.usfirst.frc3550.Robotronix2017.commands.ForwardWithEncoderTurnCommand;
 
@@ -95,7 +100,6 @@ public class Robot extends IterativeRobot {
     	fieldMesures = new FieldMesures();
     	grimpeur = new Grimpeur();
     	cameras = new Cameras();
-    	
         //Cubedetect = new DigitalInput();
       //  CameraServer.getInstance().startAutomaticCapture(); Cameras until Finger Lakes
 
@@ -274,14 +278,17 @@ public class Robot extends IterativeRobot {
     @Override
     public void autonomousInit() {
     	// driveTrain.reset();
-        // driveTrain.getAhrs().reset();
-    	
+        driveTrain.getAhrs().reset();
+       
         gameCode = ds.getGameSpecificMessage();
     	//if (gameCode.charAt(0) == 'L') // Bascule cote gauche
         if (gameCode.charAt(0) == 'L')
 		{
-			m_autonomousCommand = m_autoChooserLeft.getSelected();
-	    	if (m_autonomousCommand != null) {
+			//m_autonomousCommand = m_autoChooserLeft.getSelected();
+			m_autonomousCommand = new TwoCubeEasy(FROM_RIGHT_PORTAL.SCALE_RIGHT_TRAVEL, FROM_RIGHT_PORTAL.SCALE_RIGHT_FINISH, FROM_RIGHT_PORTAL.SECOND_CUBE, -90, 0.60, 0.50);
+			//m_autonomousCommand = new RunPathTheory6(FROM_RIGHT.START_POINT,FROM_RIGHT.CONTROL_POINT_ONE,FROM_RIGHT.CONTROL_POINT_TWO,FROM_RIGHT.END_POINT,8,0.8, false);
+        	//  m_autonomousCommand = new Theory6BasicCommandGroup();
+        	if (m_autonomousCommand != null) {
 	    		m_autonomousCommand.start();
 	    	}
 		}
@@ -373,6 +380,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void autonomousPeriodic() {
     	System.out.println("AutonomousPeriodic");
+    	SmartDashboard.putNumber ("RobotAngle3", driveTrain.getAhrs().getYaw());
         Scheduler.getInstance().run();
     }
 
@@ -383,7 +391,7 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (m_autonomousCommand != null) m_autonomousCommand.cancel();
-        driveTrain.reset();
+        driveTrain.resetEncoders();
         driveTrain.getAhrs().reset();
         cameras.drivingMode();//added after Finger Lakes
     }
@@ -402,7 +410,7 @@ public class Robot extends IterativeRobot {
 	//
 	
 	private void log() {
-		SmartDashboard.putNumber ("Left Distance", Robot.driveTrain.getLeftDistance());
+		SmartDashboard.putNumber ("Left Distance", Robot.driveTrain.getLeftEncoderDistance());
 		//SmartDashboard.putNumber ("Right Distance", driveTrain.getRightDistance());
 		//SmartDashboard.putNumber ("LeftEncoder Rate",  driveTrain.getLeftRate());
 		//SmartDashboard.putNumber ("RightEncoder Rate", driveTrain.getRightRate());
@@ -417,7 +425,8 @@ public class Robot extends IterativeRobot {
        // SmartDashboard.putBoolean("IMU_IsCalibrating", RobotMap.ahrs.isCalibrating());
       //  SmartDashboard.putNumber ("IMU_Yaw", RobotMap.ahrs.getYaw());
        // SmartDashboard.putNumber ("IMU_Pitch", RobotMap.ahrs.getPitch());
-        SmartDashboard.putNumber ("RobotAngle", driveTrain.getAhrs().getAngle());
+        SmartDashboard.putNumber ("TeleoPAngleGet", driveTrain.getAhrs().getAngle());
+        SmartDashboard.putNumber ("TeleoPAngleYaw", driveTrain.getAhrs().getYaw());
 	}
 	
 	/*public int calcID(int position, int colorConfig, int objective)

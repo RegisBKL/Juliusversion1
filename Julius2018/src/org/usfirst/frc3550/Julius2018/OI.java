@@ -109,11 +109,15 @@ public class OI {
 
 		Button button7= new JoystickButton(joystickCoPilot, 7);
 		button7.whileHeld(new  PetitCadreUpCommand());
-
+		
+		Button button8P = new JoystickButton(joystickPilote, 8);
+		button8P.whenPressed(new DriveStraightCommandTheory6());
+		
 		Button buttonRotate = new JoystickButton(joystickPilote, 9); //for tests purpose only, to be commented
-		buttonRotate.whenPressed(new AutoDriveDistanceCommand(50, 1));//
-
-
+		//buttonRotate.whenPressed(new AutoDriveDistanceCommand(50, 1));//
+		//buttonRotate.whenPressed(new Theory6TurnToAngleCommand(90, 0.7, 0.25));
+		//buttonRotate.whenPressed(new Theory6driveSraightCommand(50, 0.7, 90, 0.25));
+		buttonRotate.whenPressed(new Theory6BasicCommandGroup());
 
 		//Button button8 = new JoystickButton(joyRight, 8);
 		//button8.whenPressed(new Pos1ColorLeftObjCubeBasculeCommand()); //Pos1ColorLeftObjCubeBalanceCommand());

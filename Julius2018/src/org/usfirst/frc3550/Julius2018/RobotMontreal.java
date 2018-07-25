@@ -369,7 +369,7 @@ public class RobotMontreal extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (m_autonomousCommand != null) m_autonomousCommand.cancel();
-        driveTrain.reset();
+        driveTrain.resetEncoders();
         driveTrain.getAhrs().reset();
     }
 
@@ -387,7 +387,7 @@ public class RobotMontreal extends IterativeRobot {
 	//
 	
 	private void log() {
-		SmartDashboard.putNumber ("Left Distance", driveTrain.getLeftDistance());
+		SmartDashboard.putNumber ("Left Distance", driveTrain.getLeftEncoderDistance());
 		//SmartDashboard.putNumber ("Right Distance", driveTrain.getRightDistance());
 		//SmartDashboard.putNumber ("LeftEncoder Rate",  driveTrain.getLeftRate());
 		//SmartDashboard.putNumber ("RightEncoder Rate", driveTrain.getRightRate());

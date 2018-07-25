@@ -14,12 +14,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class AutoDriveRotateCommand extends Command {
     private double m_setpoint = 0;
-	private static final double kP = 10; //
-	private static final double kPoututValue = 0.50;  //0.55; //
+	private static final double kP = 0.024; //
+	private static final double kPoututValue = 0.9;  //0.55; //
 	// integral speed constant
-	private static final double kI = 0.01; //0.018
+	private static final double kI = 0.0; //0.018
 	// derivative speed constant
-	private static final double kD = 1; //1.5
+	private static final double kD = 0; //1.5
 	// derivative speed constant
 	private static final double kF = 0;
 	private double m_error = 0;
@@ -51,7 +51,7 @@ public class AutoDriveRotateCommand extends Command {
 		m_GyroPID.setAbsoluteTolerance(0.1f);
 		// error = setpoint - Robot.drivetrain.getAhrs().getAngle();
 		// Set setpoint of the pid controller
-		SmartDashboard.putNumber("AngleSetpoint", m_setpoint);
+		System.out.println("AngleSetpoint: " + m_setpoint);
 		m_GyroPID.setContinuous(true);
 		m_GyroPID.setSetpoint(m_setpoint);
 		m_GyroPID.enable(); // begin PID control
@@ -62,10 +62,11 @@ public class AutoDriveRotateCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		// Set setpoint of the pid controller
+		System.out.println("PIDpreinsideAngle: "+ Robot.driveTrain.getAhrs().getAngle());
 		m_error = m_setpoint - Robot.driveTrain.getAhrs().getAngle();
-		SmartDashboard.putNumber("actual_AngleError", m_error);
-		SmartDashboard.putNumber("PIDinsideAngle", Robot.driveTrain.getAhrs().getAngle());
-		SmartDashboard.putNumber("SetPoint_InsidePID",-m_rotateValue);
+		System.out.println("actual_AngleError: "+ m_error);
+		System.out.println("PIDpostinsideAngle: "+ Robot.driveTrain.getAhrs().getAngle());
+		System.out.println("SetPoint_InsidePID: "+-m_rotateValue);
 		//	m_GyroPID.setSetpoint(setpoint);
 		//Robot.driveTrain.arcadeDrive(0, -rotateValue); // robot de competition
 		Robot.driveTrain.arcadeDrive(0, m_rotateValue); // robot de test
@@ -83,7 +84,7 @@ public class AutoDriveRotateCommand extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		//Robot.drivetrain.disableDriveTrain();
-		Robot.driveTrain.stop();
+		Robot.driveTrain.stopRobot();
 		m_GyroPID.disable(); // begin PID control
 	}
 

@@ -19,7 +19,7 @@ public class DriveStraightCommand extends Command {
 
 			@Override
 			public double pidGet() {
-				return Robot.driveTrain.getLeftDistance();
+				return Robot.driveTrain.getLeftEncoderDistance();
 			}
 
 			@Override
@@ -42,7 +42,7 @@ public class DriveStraightCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveTrain.reset();
+    	Robot.driveTrain.resetEncoders();
 		m_pid.reset();
 		m_pid.enable();
 
